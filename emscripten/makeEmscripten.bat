@@ -64,6 +64,6 @@ if not exist "built/adapter.bc" (
 	IF !ERRORLEVEL! NEQ 0 goto :END
 )
 
-call emcc.bat %OPT% -s TOTAL_MEMORY=33554432  --closure 1 built/thirdparty.bc built/binary.bc built/io.bc built/formats.bc  built/devices.bc built/core.bc built/core_packed.bc built/other.bc built/adapter.bc  -s EXPORTED_FUNCTIONS="['_alloc', '_emu_init','_emu_teardown','_emu_set_subsong','_emu_get_track_info','_emu_get_audio_buffer','_emu_get_audio_buffer_length','_emu_compute_audio_samples']"  -o htdocs/web_zxtune2.html && copy /b shell-pre.js + htdocs\web_zxtune2.js + shell-post.js htdocs\web_zxtune.js && del htdocs\web_zxtune2.html && del htdocs\web_zxtune2.js
+call emcc.bat %OPT% -s TOTAL_MEMORY=33554432  --closure 1 built/thirdparty.bc built/binary.bc built/io.bc built/formats.bc  built/devices.bc built/core.bc built/core_packed.bc built/other.bc built/adapter.bc  -s EXPORTED_FUNCTIONS="['_alloc', '_emu_init','_emu_get_sample_rate','_emu_teardown','_emu_set_subsong','_emu_get_track_info','_emu_get_audio_buffer','_emu_get_audio_buffer_length','_emu_compute_audio_samples']"  -o htdocs/web_zxtune2.html && copy /b shell-pre.js + htdocs\web_zxtune2.js + shell-post.js htdocs\web_zxtune.js && del htdocs\web_zxtune2.html && del htdocs\web_zxtune2.js
 
 :END

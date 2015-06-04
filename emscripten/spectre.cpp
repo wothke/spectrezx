@@ -55,6 +55,8 @@
 
 #include "player.h"
 
+int guiSamplesRate= 44100;	// override ZxTune defaults so it is in sync with the needs of the GUI
+
 // -------------------- SongInfo -------------------
 
 static const char *EMPTY= "";
@@ -170,8 +172,8 @@ public:
 		Module::Information::Ptr mi = input_module_->GetModuleInformation();
 		if(!mi)
 			throw  std::invalid_argument("io unsupported format"); 
-			
-		input_player_ = PlayerWrapper::Create(input_module_);
+
+		input_player_ = PlayerWrapper::Create(input_module_, guiSamplesRate);
 		if(!input_player_)
 			throw  std::invalid_argument("io unsupported format"); 			
 	}

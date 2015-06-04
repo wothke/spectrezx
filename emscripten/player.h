@@ -122,11 +122,14 @@
       return Params;
     }
 
-    static Ptr Create(Module::Holder::Ptr holder)
+    static Ptr Create(Module::Holder::Ptr holder, int sampleRate)
     {
       const Parameters::Container::Ptr params = Parameters::Container::Create();
       //copy initial properties
       holder->GetModuleProperties()->Process(*params);
+	  
+      params->SetValue(Parameters::ZXTune::Sound::FREQUENCY, sampleRate);
+		
       const BufferRender::Ptr buffer = boost::make_shared<BufferRender>();
       const Module::Renderer::Ptr renderer = holder->CreateRenderer(params, buffer);
       return boost::make_shared<PlayerWrapper>(params, renderer, buffer);

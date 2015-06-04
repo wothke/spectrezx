@@ -65,6 +65,8 @@ const char* exception::what() const _NOEXCEPT
 char sample_buffer[SAMPLE_BUF_SIZE * BYTES_PER_SAMPLE * CHANNELS];
 int samples_available= 0;
 
+extern int guiSamplesRate;
+
 const char* info_texts[7];
 
 char title_str[TEXT_MAX];
@@ -135,17 +137,23 @@ namespace
 	}
 }
 
-
 extern "C" void emu_teardown (void)  __attribute__((noinline));
 extern "C" void EMSCRIPTEN_KEEPALIVE emu_teardown (void) {
 	teardownZxTune();
 }
 
-
+// confirm effective sample rate
+extern "C" int emu_get_sample_rate() __attribute__((noinline));
+extern "C" EMSCRIPTEN_KEEPALIVE int emu_get_sample_rate()
+{
+	return guiSamplesRate;
+}
 
 extern "C" int emu_init(int sample_rate, char *basedir, char *songmodule) __attribute__((noinline));
 extern "C" EMSCRIPTEN_KEEPALIVE int emu_init(int sample_rate, char *basedir, char *songmodule)
 {
+	guiSamplesRate= sample_rate;
+
 	emu_teardown();
 	
 	try	{  
