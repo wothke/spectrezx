@@ -21,7 +21,10 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 */
 
-This is a JavaScript/WebAudio version of ZXTune: It plays mostly ZX Spectrum chiptune music using tracker formats like: Chip Tracker v1.xx, Digital Music Maker, Digital Studio AY/Covox, Extreme Tracker v1.xx, ProDigiTracker v0.xx, SQ Digital Tracker, Sample Tracker. (It also supports various packed and archived file formats.)
+This is a JavaScript/WebAudio plugin of ZXTune. This plugin is designed to work with version 1.0 of my 
+generic WebAudio ScriptProcessor music player (see separate project). 
+
+It plays mostly ZX Spectrum chiptune music using tracker formats like: Chip Tracker v1.xx, Digital Music Maker, Digital Studio AY/Covox, Extreme Tracker v1.xx, ProDigiTracker v0.xx, SQ Digital Tracker, Sample Tracker. (It also supports various packed and archived file formats.)
 
 This "project" is based on ZXTune version "zxtune-r3150": The project includes most of the original code including the 3rd party dependencies. (Some of the unused 'boost' stuff was stripped off and RAR support was also removed.)
 
@@ -75,9 +78,7 @@ ANY additions or manual changes on the installation. The below instructions assu
 folder has been moved into the main emscripten folder (maybe not necessary) and that a command prompt has been 
 opened within the spectrezx/emscripten sub-folder, and that the Emscripten environment vars have been set (run emsdk_env.bat).
 
-Running the makeEmscripten.bat will generate a JavaScript 'ZXTune' library (web_zxtune.js) including the above mentioned 
-interface APIs. This lib is directly written into the web-page example in the "htdocs" sub-folder. (This generated lib is 
-used from some manually written JavaScript/WebAudio code, see htdocs/sample_player.js). Study the example in "htdocs" 
-for how the player is used.
+Running the makeEmscripten.bat will generate a JavaScript 'ZXTune' library (backend_zxtune.js). This lib is directly 
+written into the web-page example in the "htdocs" sub-folder. Study the example in "htdocs" for how the plugin is used.
 
 

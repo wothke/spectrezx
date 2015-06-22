@@ -23,8 +23,9 @@
 #include <contract.h>
 #include <pointers.h>
 #include <types.h>
-#include <stdlib.h>     /* malloc, free, rand */
 
+
+#include <stdlib.h>     /* malloc, free, rand */
 #include <exception>
 #include <iostream>
 #include <fstream>
@@ -135,6 +136,18 @@ namespace
 	int render_sound(void* buffer, size_t samples) {
 	  return  g_zxtune->render_sound(buffer, samples);
 	}
+	
+	int  get_current_position() {
+		return g_zxtune->get_current_position();
+	}
+
+	void seek_position(int pos) {
+		g_zxtune->seek_position(pos);
+	}
+
+	int get_max_position() {
+		return g_zxtune->get_max_position();
+	}
 }
 
 extern "C" void emu_teardown (void)  __attribute__((noinline));
@@ -169,9 +182,10 @@ extern "C" EMSCRIPTEN_KEEPALIVE int emu_init(int sample_rate, char *basedir, cha
 	return 0;
 }
 
-extern "C" void emu_set_subsong(int subsong) __attribute__((noinline));
-extern "C" void EMSCRIPTEN_KEEPALIVE emu_set_subsong(int subsong) {
+extern "C" int emu_set_subsong(int subsong) __attribute__((noinline));
+extern "C" int EMSCRIPTEN_KEEPALIVE emu_set_subsong(int subsong) {
 	selectZxTune(subsong);
+	return 0;
 }
 
 extern "C" const char** emu_get_track_info() __attribute__((noinline));
@@ -207,4 +221,20 @@ extern "C" int EMSCRIPTEN_KEEPALIVE emu_compute_audio_samples() {
 		return 1;
 	}
 }
+
+extern "C" int emu_get_current_position() __attribute__((noinline));
+extern "C" int EMSCRIPTEN_KEEPALIVE emu_get_current_position() {
+	return get_current_position();
+}
+
+extern "C" void emu_seek_position(int pos) __attribute__((noinline));
+extern "C" void EMSCRIPTEN_KEEPALIVE emu_seek_position(int pos) {
+	seek_position(pos);
+}
+
+extern "C" int emu_get_max_position() __attribute__((noinline));
+extern "C" int EMSCRIPTEN_KEEPALIVE emu_get_max_position() {
+	return get_max_position();
+}
+
 

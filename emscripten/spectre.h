@@ -51,6 +51,9 @@ public:
 	void get_song_info(unsigned int p_subsong, SongInfo & p_info);
 	int render_sound(void* buffer, size_t samples);
 	
+	int get_current_position();
+	int get_max_position();
+	void seek_position(int pos);
 protected:
 	class ZxTuneWrapperImpl;
     ZxTuneWrapperImpl* pimpl_;

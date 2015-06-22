@@ -73,6 +73,10 @@
     {
     }
 
+	Module::Renderer::Ptr GetRenderer() {
+		return Renderer; 
+	}
+	
     std::size_t RenderSound(Sound::Sample* target, std::size_t samples)
     {
       std::size_t result = 0;

@@ -84,7 +84,8 @@ namespace Chiptune
 
 	bool checkOffsets(const RawHeader& hdr, const std::size_t size) {
 		for (int i= 0; i<6-1; i++) {	// if some earlier element can be matched then return false
-			if (fromLE(hdr.Offsets[i]) >= size)
+			if (fromLE<uint16_t>(hdr.Offsets[i]) >= size)
+//			if (fromLE(hdr.Offsets[i]) >= size) XXX
 				return false;
 		}
 		return true;

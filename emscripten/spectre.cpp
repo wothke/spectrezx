@@ -37,9 +37,13 @@
 #include "core/module_open.h"
 #include "core/module_holder.h"
 #include "core/module_player.h"
+#include "core/module_types.h"
 #include "parameters/container.h"
 #include "platform/version/api.h"
 #include "sound/sound_parameters.h"
+#include "sound/service.h"
+
+
 //std includes
 #include <map>
 #include <iostream>
@@ -89,6 +93,7 @@ public:
 	
 	void set_total_tracks(int n) 		{ total_tracks_= n;}
 	int get_total_tracks() 				{ return total_tracks_;}
+		
 private:
 	std::string codec_;
 	std::string author_;
@@ -99,6 +104,8 @@ private:
 	
 	int track_number_;
 	int total_tracks_;
+	
+	int total_positions_;
 };
 
 SongInfo::SongInfo() : pimpl_(new SongInfoImpl()) {}
@@ -160,7 +167,7 @@ public:
 			throw  std::invalid_argument("io unsupported format");
 		}
 	}
-	
+		
 	void decode_initialize(unsigned int p_subsong, SongInfo & p_info) {
 		std::string subpath = get_subpath(p_subsong, p_info);
 
@@ -174,8 +181,11 @@ public:
 			throw  std::invalid_argument("io unsupported format"); 
 
 		input_player_ = PlayerWrapper::Create(input_module_, guiSamplesRate);
+				
 		if(!input_player_)
-			throw  std::invalid_argument("io unsupported format"); 			
+			throw  std::invalid_argument("io unsupported format"); 	
+
+	   input_player_->GetRenderer()->SetPosition(0);			
 	}
 	
 	void get_song_info(unsigned int p_subsong, SongInfo & p_info)	{
@@ -207,7 +217,7 @@ public:
 			if(!mi)
 				throw  std::invalid_argument("io unsupported format");
 		}
-
+		
 		String type;
 		info.set_codec(props->FindValue(Module::ATTR_TYPE, type) ? type : std::string("undefined"));
 		
@@ -247,7 +257,18 @@ public:
 			return -1;
 		}
 	}
-		
+	
+	int get_current_position() {
+		return input_player_->GetRenderer()->GetTrackState()->Frame();
+	}
+	
+	int get_max_position() {
+		return input_module_->GetModuleInformation()->FramesCount();
+	}
+	
+	void seek_position(int pos) {
+	   input_player_->GetRenderer()->SetPosition(pos);
+	}
 protected: 
 	std::string get_subpath(unsigned int p_subsong, SongInfo & p_info) {
 		const char* subpath = p_info.get_subpath();
@@ -278,7 +299,7 @@ private:
 	typedef std::vector<ModuleDesc> Modules;
 	Modules					input_modules_;
 	Module::Holder::Ptr		input_module_;
-	PlayerWrapper::Ptr		input_player_;	
+	PlayerWrapper::Ptr		input_player_;
 };
 
 ZxTuneWrapper::ZxTuneWrapper(std::string p, const void* data, size_t size) : pimpl_(new ZxTuneWrapper::ZxTuneWrapperImpl(p, data, size)) {
@@ -303,3 +324,15 @@ void ZxTuneWrapper::get_song_info(unsigned int p_subsong, SongInfo & p_info) {
 int ZxTuneWrapper::render_sound(void* buffer, size_t samples) {
 	return pimpl_->render_sound(buffer, samples);
 }
+
+int ZxTuneWrapper::get_current_position() {
+	return pimpl_->get_current_position();
+}
+int ZxTuneWrapper::get_max_position() {
+	return pimpl_->get_max_position();
+}
+void ZxTuneWrapper::seek_position(int pos) {
+	pimpl_->seek_position(pos);
+}
+
+

@@ -1,4 +1,4 @@
-SpectreZX - WebAudio port of ZXTune
+SpectreZX - WebAudio plugin of ZXTune
 =========
 
 	Copyright (C) 2015 Juergen Wothke
@@ -28,7 +28,7 @@ Howto build (on Windows):
 
 The Web version is built using the makeEmscripten.bat that can be found in this folder. The 
 script will compile directly into the "emscripten/htdocs" example web folder, were it will create 
-the web_zxtune.js library. The content of the "htdocs" can be tested by first copying into some 
+the backend_zxtune.js library. The content of the "htdocs" can be tested by first copying into some 
 document folder of a web server (this running example shows how the code is used). 
 
 
