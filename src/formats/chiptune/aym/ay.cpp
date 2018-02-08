@@ -40,7 +40,7 @@ namespace AY
 #endif
   PACK_PRE struct RawInt16
   {
-    short Val;	// us built-in instead of boost::uint16_t to avoid unaligned access issues
+    short Val;	// use built-in instead of boost::uint16_t to avoid unaligned access issues
   } PACK_POST;
 
   PACK_PRE struct Header

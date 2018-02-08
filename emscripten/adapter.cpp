@@ -63,7 +63,12 @@ const char* exception::what() const _NOEXCEPT
 #define CHANNELS 2				
 #define BYTES_PER_SAMPLE 2
 #define SAMPLE_BUF_SIZE	8192
-char sample_buffer[SAMPLE_BUF_SIZE * BYTES_PER_SAMPLE * CHANNELS];
+
+
+// zxtune expects uint32_t-array - proper alignment is crucial!
+uint32_t sample_bufferU[(SAMPLE_BUF_SIZE * BYTES_PER_SAMPLE * CHANNELS / 4)+1];
+char *sample_buffer = (char*)sample_bufferU;
+
 int samples_available= 0;
 
 extern int guiSamplesRate;

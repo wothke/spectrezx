@@ -6,7 +6,7 @@
 
     BufferRender()
       : Buffer(32768)
-      , DoneSamples()
+      , DoneSamples(0)
     {
     }
 

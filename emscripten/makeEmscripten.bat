@@ -1,13 +1,13 @@
-rem  POOR MAN'S DOS PROMPT BUILD SCRIPT.. make sure to delete the respective *.bc files before building 
-rem  existing *.bc files will not be recompiled. Unfortunately the script occasionally 
-rem  fails for no good reason - this must be the wonderful world of DOS/Win... ;-)
+::  POOR MAN'S DOS PROMPT BUILD SCRIPT.. make sure to delete the respective *.bc files before building 
+::  existing *.bc files will not be recompiled. Unfortunately the script occasionally 
+::  fails for no good reason - this must be the wonderful world of DOS/Win... ;-)
 
-rem  examples of windows bullshit bingo (i.e. the same compile works when started again..): 
-rem  1) error msg: "'_zxtune.html' is not recognized as an internal or external command, 
-rem  operable program or batch file." -> for some reason the last command line was arbitrarily cut in two..
-rem  2) The system cannot find the path specified.
-rem  3) WindowsError: [Error 5] Access is denied
-rem  4) cpp: error: CreateProcess: No such file or directory
+::  examples of windows bullshit bingo (i.e. the same compile works when started again..): 
+::  1) error msg: "'_zxtune.html' is not recognized as an internal or external command, 
+::  operable program or batch file." -> for some reason the last command line was arbitrarily cut in two..
+::  2) The system cannot find the path specified.
+::  3) WindowsError: [Error 5] Access is denied
+::  4) cpp: error: CreateProcess: No such file or directory
 
 
 setlocal enabledelayedexpansion
@@ -17,7 +17,9 @@ VERIFY > NUL
 
 
 :: **** use the "-s WASM" switch to compile WebAssembly output. warning: the SINGLE_FILE approach does NOT currently work in Chrome 63.. ****
-set "OPT2= -s WASM=0 -s ASSERTIONS=0 -Wcast-align -fno-strict-aliasing -s VERBOSE=0 -s SAFE_HEAP=0 -s DISABLE_EXCEPTION_CATCHING=0 -DNO_DEBUG_LOGS  -DBLOODY_HACK -DBOOST_NO_RTTI -DBOOST_SYSTEM_NO_DEPRECATED -DNO_L10N -DBOOST_ERROR_CODE_HEADER_ONLY -Wno-pointer-sign -I. -I.. -I../include -I./include -I../3rdparty/zlib/ -I../3rdparty/z80ex/ -I../3rdparty/z80ex/include -I../3rdparty/curl/ -I../boost/ -I../src/  -Os -O3 --memory-init-file 0 "
+:: note: for older emscripten versions (which come without std::exception) you may need to add -DBLOODY_HACK
+
+set "OPT2= -s WASM=0 -s ASSERTIONS=0 -Wcast-align -fno-strict-aliasing -s VERBOSE=0 -s FORCE_FILESYSTEM=1 -s SAFE_HEAP=0 -s DISABLE_EXCEPTION_CATCHING=0 -DNO_DEBUG_LOGS  -DBOOST_NO_RTTI -DBOOST_SYSTEM_NO_DEPRECATED -DNO_L10N -DBOOST_ERROR_CODE_HEADER_ONLY -Wno-pointer-sign -I. -I.. -I../include -I./include -I../3rdparty/zlib/ -I../3rdparty/z80ex/ -I../3rdparty/z80ex/include -I../3rdparty/curl/ -I../boost/ -I../src/  -Os -O3 --memory-init-file 0 "
 set "OPT=%OPT2% -DBOOST_NO_STD_MIN_MAX" 
 
 if not exist "built/thirdparty.bc" (
@@ -65,6 +67,6 @@ if not exist "built/adapter.bc" (
 	IF !ERRORLEVEL! NEQ 0 goto :END
 )
 
-call emcc.bat %OPT% -s TOTAL_MEMORY=33554432  --closure 1 --llvm-lto 1 built/thirdparty.bc built/binary.bc built/io.bc built/formats.bc  built/devices.bc built/core.bc built/core_packed.bc built/other.bc built/adapter.bc  -s EXPORTED_FUNCTIONS="['_alloc', '_emu_init','_emu_get_sample_rate','_emu_get_current_position','_emu_get_max_position','_emu_seek_position','_emu_teardown','_emu_set_subsong','_emu_get_track_info','_emu_get_audio_buffer','_emu_get_audio_buffer_length','_emu_compute_audio_samples', '_malloc', '_free']"  -o htdocs/web_zxtune2.js -s SINGLE_FILE=0 -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'Pointer_stringify']"  -s BINARYEN_ASYNC_COMPILATION=1 -s BINARYEN_TRAP_MODE='clamp' && copy /b shell-pre.js + htdocs\web_zxtune2.js + shell-post.js htdocs\web_zxtune.js && del htdocs\web_zxtune2.js && copy /b htdocs\web_zxtune.js + zxtune_adapter.js htdocs\backend_zxtune.js && del htdocs\web_zxtune.js
+call emcc.bat %OPT% -s TOTAL_MEMORY=33554432  --closure 1 --llvm-lto 1 built/thirdparty.bc built/binary.bc built/io.bc built/formats.bc  built/devices.bc built/core.bc built/core_packed.bc built/other.bc built/adapter.bc  -s EXPORTED_FUNCTIONS="['_emu_init','_emu_get_sample_rate','_emu_get_current_position','_emu_get_max_position','_emu_seek_position','_emu_teardown','_emu_set_subsong','_emu_get_track_info','_emu_get_audio_buffer','_emu_get_audio_buffer_length','_emu_compute_audio_samples', '_malloc', '_free']"  -o htdocs/web_zxtune2.js -s SINGLE_FILE=0 -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'Pointer_stringify']"  -s BINARYEN_ASYNC_COMPILATION=1 -s BINARYEN_TRAP_MODE='clamp' && copy /b shell-pre.js + htdocs\web_zxtune2.js + shell-post.js htdocs\web_zxtune.js && del htdocs\web_zxtune2.js && copy /b htdocs\web_zxtune.js + zxtune_adapter.js htdocs\backend_zxtune.js && del htdocs\web_zxtune.js
 
 :END
