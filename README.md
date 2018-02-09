@@ -25,7 +25,6 @@ This "project" is based on ZXTune (see http://zxtune.bitbucket.org/)
 
 
 ## Howto build
-
 You'll need Emscripten (http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). The make script 
 is designed for use of emscripten version 1.37.29 (unless you want to create WebAssembly output, older versions might 
 also still work).
@@ -40,9 +39,12 @@ script will compile directly into the "emscripten/htdocs" example web folder, we
 the backend_zxtune.js library. The content of the "htdocs" can be tested by first copying it into some 
 document folder of a web server. 
 
+## Dependencies
+The current version requires version 1.02 (older versions will not
+support WebAssembly) of my https://github.com/wothke/webaudio-player.
 
-## LICENSE
 
+## License
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at

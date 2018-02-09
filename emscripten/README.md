@@ -11,7 +11,6 @@ merge future ZXTune fixes or updates.
 
 
 ## code changes
-
 Some unused folders have been completely removed from "3rdparty" (curl.dll, FLAC, lame, ogg, runtime, sidplayfp, unrar, vorbis, xmp), and also folders 
 "apps" & "test". The "boost" (partial; version 1.57.0) folder was added to remove the external dependency.  
 Disabled some unused code via ifdef EMSCRIPTEN (e.g. SID/XMP). 
@@ -80,7 +79,7 @@ does not seem to use any on demand file loads - if this ever was to change, then
 port would need to be upgraded.
 
 
-## LICENSE
+## License
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
