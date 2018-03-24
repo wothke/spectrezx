@@ -9,9 +9,12 @@ It plays mostly ZX Spectrum chiptune music using tracker formats like: Chip Trac
 Digital Music Maker, Digital Studio AY/Covox, Extreme Tracker v1.xx, ProDigiTracker v0.xx, 
 SQ Digital Tracker, Sample Tracker. (It also supports various packed and archived file formats.)
 
-This "project" is based on ZXTune version "zxtune-r3150": The project includes most of the 
-original code including the 3rd party dependencies. (Some of the unused 'boost' stuff was 
-stripped off and RAR support was also removed.)
+This "project" is based on ZXTune version "zxtune-r3150": As far as Z80 emulation concerned
+the project includes most of the  original code including the 3rd party dependencies. 
+Other 3rd party emulators(etc) have been removed (since I already have those
+as separate standalone players or I don't need them) and I don't want to make this player 
+any bigger than it already is (e.g. FLAC, mp3, ogg, sidplayfp, vorbis, xmp). 
+(Some of the unused 'boost' stuff was stripped off and RAR support was also removed.)
 
 All the "Web" specific additions (i.e. the whole point of this project) are contained in the 
 "emscripten" subfolder (more info there). The main interface between the JavaScript/WebAudio 
