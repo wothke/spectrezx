@@ -94,7 +94,10 @@ ZxTuneBackendAdapter = (function(){ var $this = function () {
 
 			var array = this.Module.HEAP32.subarray(ret>>2, (ret>>2)+numAttr);
 			result.title= this.Module.Pointer_stringify(array[0]);
-			if (!result.title.length) result.title= filename;		
+			if (!result.title.length)  {
+				filename =  filename.split('\\').pop().split('/').pop().split('.').slice(0, -1).join('.');	// get name without extension
+				result.title= filename;
+			}				
 			result.author= this.Module.Pointer_stringify(array[1]);		
 			result.desc= this.Module.Pointer_stringify(array[2]);
 			result.program= this.Module.Pointer_stringify(array[3]);

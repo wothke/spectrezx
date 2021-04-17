@@ -65,6 +65,8 @@ public:
 	SongInfo();
 	virtual ~SongInfo();
 
+	const void reset();
+	
 	const char *get_codec();
 	const char *get_author();
 	const char *get_title();

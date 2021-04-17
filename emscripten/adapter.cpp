@@ -31,13 +31,13 @@
 #include <fstream>
 
 #include "spectre.h"
-
+/*
 #ifdef EMSCRIPTEN
 #define EMSCRIPTEN_KEEPALIVE __attribute__((used))
 #else
 #define EMSCRIPTEN_KEEPALIVE
 #endif
-
+*/
 // for some reason my old Emscripten version DOES NOT provide std:exception
 // with its stdlib... if you are building with a better version then disable this 
 // BLOODY_HACK
@@ -134,6 +134,9 @@ namespace
 	
 	void selectZxTune(int subsong) {
 		subsong+=1;	// JavaScript uses 0..n but zxTune 1..n+1
+		
+		g_songinfo.reset();
+		
 		g_zxtune->get_song_info(subsong, g_songinfo);
 		g_zxtune->decode_initialize(subsong, g_songinfo);	
 	}

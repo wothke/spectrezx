@@ -93,7 +93,16 @@ public:
 	
 	void set_total_tracks(int n) 		{ total_tracks_= n;}
 	int get_total_tracks() 				{ return total_tracks_;}
-		
+	
+	void reset() {
+		codec_= std::string(EMPTY);
+		author_= std::string(EMPTY);
+		title_= std::string(EMPTY);
+		sub_path_= std::string(EMPTY);
+		comment_= std::string(EMPTY);
+		program_= std::string(EMPTY);
+	}
+	
 private:
 	std::string codec_;
 	std::string author_;
@@ -118,6 +127,7 @@ const char *SongInfo::get_comment()		 	{ return pimpl_->get_comment(); }
 const char *SongInfo::get_program()		 	{ return pimpl_->get_program(); }
 int SongInfo::get_track_number()		 	{ return pimpl_->get_track_number(); }
 int SongInfo::get_total_tracks()		 	{ return pimpl_->get_total_tracks(); }
+int SongInfo::reset()		 	{ return pimpl_->reset(); }
 
 
 // -------------------- ZxTuneWrapper -------------------
